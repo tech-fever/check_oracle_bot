@@ -12,7 +12,6 @@ from telegram import Update, ParseMode
 from telegram.ext import CallbackContext, DispatcherHandlerStop
 
 import utils.const as const
-from utils.mwt import MWT
 from utils.myClass import MyContext, auto_delete
 
 delete_after = 30
