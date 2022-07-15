@@ -222,9 +222,8 @@ def post_check_group_banned_cmd(update: Update, context: MyContext) -> None:
         context.job_queue.run_once(auto_delete, delete_after + 5, context=update.effective_message)
 
 
-@MWT(timeout=60 * 60)
 def canBotDeleteMessage(update: Update, context: MyContext) -> bool:
-    bot_chat_info = context.bot.get_chat_member(update.effective_chat.id, context.bot.id)
+    bot_chat_info = context.bot.get_chat_member(chat_id=update.effective_chat.id, user_id=context.bot.id)
     return bot_chat_info.can_delete_messages
 
 
