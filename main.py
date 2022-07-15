@@ -15,17 +15,17 @@ def main():
     my_persistence = PicklePersistence(filename='./data/my_file')
     updater = Updater(token=bot_token, persistence=my_persistence, use_context=True, base_url=base_url,
                       base_file_url=base_file_url, context_types=ContextTypes(context=MyContext))
-    # PS：use_context is by default False in v12, and True in v13
+    # PS: use_context is by default False in v12, and True in v13
     # Get the dispatcher to register handlers
     dispatcher = updater.dispatcher
     dispatcher.bot_data['developer_chat_id'] = int(config['DEVELOPER']['developer_chat_id'])
     dispatcher.bot_data['group_enabled_command'] = {'/start', '/help', '/check'}
-    dispatcher.bot_data['group_banned_command'] = {'/set', '/add', '/get'}
+    dispatcher.bot_data['group_banned_command'] = {'/set', '/add', '/rm', '/get'}
 
     # handlers that are forbidden in groups
-    group_banned_handlers = MessageHandler(filters=Filters.chat_type.group & Filters.command,
+    group_banned_handlers = MessageHandler(filters=Filters.chat_type.groups & Filters.command,
                                            callback=handler.pre_check_group_banned_cmd)
-    # group_delete_handlers = MessageHandler(filters=Filters.chat_type.group & Filters.command,
+    # group_delete_handlers = MessageHandler(filters=Filters.chat_type.groups & Filters.command,
     #                                        callback=handler.post_check_group_banned_cmd)
     dispatcher.add_handler(group_banned_handlers, -1)
     # dispatcher.add_handler(group_delete_handlers, 1)
