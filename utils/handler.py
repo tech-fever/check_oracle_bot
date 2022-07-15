@@ -214,6 +214,7 @@ def isPrivateChat(update: Update):
     return update.effective_chat.type == 'private'
 
 
+# Delete all the command in groups
 def post_check_group_banned_cmd(update: Update, context: MyContext) -> None:
     if isPrivateChat(update) or update.effective_message.text is None:
         return
