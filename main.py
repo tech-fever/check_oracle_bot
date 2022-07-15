@@ -12,7 +12,7 @@ def main():
     base_file_url = None if len(config['TELEBOT']['base_file_url']) == 0 else config['TELEBOT']['base_file_url']
 
     # Start the bot
-    my_persistence = PicklePersistence(filename='./utils/my_file')
+    my_persistence = PicklePersistence(filename='./data/my_file')
     updater = Updater(token=bot_token, persistence=my_persistence, use_context=True, base_url=base_url,
                       base_file_url=base_file_url, context_types=ContextTypes(context=MyContext))
     # PS：use_context is by default False in v12, and True in v13
