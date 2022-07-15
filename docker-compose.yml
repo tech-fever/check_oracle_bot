@@ -1,0 +1,10 @@
+version: "3.3"
+
+services:
+  bot:
+    image: techfever/check_oracle_bot:latest
+    container_name: check_oracle_bot
+    restart: always
+    volumes:
+      - ./conf.ini:/opt/check_oracle_bot/conf.ini
+      - ./data/:/opt/check_oracle_bot/data/

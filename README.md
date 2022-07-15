@@ -12,12 +12,15 @@
 | `/rm`    | 删除指定租户名  | ✔️   |
 
 # 部署
-复制一份配置文件。
+克隆到本地，并复制一份配置文件。
 ```shell
-mkdir -p /opt/bot/ && cd /opt/bot/
+mkdir -p /opt/bot/data/ && cd /opt/bot/
 git clone https://github.com/tech-fever/check_oracle_bot.git
 pip install -r requirements.txt
 cp conf.ini.example conf.ini
+```
+编辑conf.ini
+```shell
 vim conf.ini
 ```
 填入自己的bot token和自己的用户id （不是username）。
@@ -52,4 +55,9 @@ Type=simple
 WorkingDirectory=/opt/bot/check_oracle_bot
 ExecStart=/usr/bin/python3 main.py
 Restart=always
+```
+开启进程
+```shell
+systemctl enable check_oracle_bot.service
+systemctl start check_oracle_bot.service
 ```

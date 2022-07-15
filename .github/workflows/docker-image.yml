@@ -24,7 +24,7 @@ jobs:
       - uses: docker/metadata-action@v3
         id: meta
         with:
-          images: techfever/nezha_telegram_bot
+          images: techfever/check_oracle_bot
           flavor: |
             latest=auto
           tags: |
@@ -37,5 +37,5 @@ jobs:
           platforms: linux/amd64,linux/arm64,linux/arm,linux/386,linux/s390x
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
-          cache-from: type=registry,ref=techfever/nezha_telegram_bot:latest
+          cache-from: type=registry,ref=techfever/check_oracle_bot:latest
           cache-to: type=inline
