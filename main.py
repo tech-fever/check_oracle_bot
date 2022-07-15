@@ -1,5 +1,4 @@
-from telegram import Update
-from telegram.ext import PicklePersistence, Updater, TypeHandler, ContextTypes, CommandHandler
+from telegram.ext import PicklePersistence, Updater, ContextTypes, CommandHandler, MessageHandler, Filters
 
 from utils import handler
 from utils.get_config import GetConfig
@@ -13,7 +12,7 @@ def main():
     base_file_url = None if len(config['TELEBOT']['base_file_url']) == 0 else config['TELEBOT']['base_file_url']
 
     # Start the bot
-    my_persistence = PicklePersistence(filename='./data/my_file')
+    my_persistence = PicklePersistence(filename='./utils/my_file')
     updater = Updater(token=bot_token, persistence=my_persistence, use_context=True, base_url=base_url,
                       base_file_url=base_file_url, context_types=ContextTypes(context=MyContext))
     # PS：use_context is by default False in v12, and True in v13
@@ -24,8 +23,10 @@ def main():
     dispatcher.bot_data['group_banned_command'] = {'/set', '/add', '/get'}
 
     # handlers that are forbidden in groups
-    group_banned_handlers = TypeHandler(Update, handler.pre_check_is_private)
-    group_delete_handlers = TypeHandler(Update, handler.post_check_is_private)
+    group_banned_handlers = MessageHandler(filters=Filters.chat_type.group & Filters.command,
+                                           callback=handler.pre_check_group_banned_cmd)
+    group_delete_handlers = MessageHandler(filters=Filters.chat_type.group & Filters.command,
+                                           callback=handler.post_check_group_banned_cmd)
     dispatcher.add_handler(group_banned_handlers, -1)
     dispatcher.add_handler(group_delete_handlers, 1)
     dispatcher.add_handler(CommandHandler('start', handler.help_command, run_async=True))

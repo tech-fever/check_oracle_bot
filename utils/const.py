@@ -1,4 +1,4 @@
-class _const:
+class _CONST:
     class ConstError(TypeError):
         pass
 
@@ -9,4 +9,8 @@ class _const:
 
 
 import sys
-sys.modules[__name__] = _const()
+
+sys.modules[__name__] = _CONST()
+_CONST.LIVE = 'live'
+_CONST.DEAD = 'dead'
+_CONST.VOID = 'void'
