@@ -14,6 +14,7 @@
 # 部署
 克隆到本地，并复制一份配置文件。
 ```shell
+apt update && apt install git gcc -y
 mkdir -p /opt/bot/data/ && cd /opt/bot/
 git clone https://github.com/tech-fever/check_oracle_bot.git
 pip install -r requirements.txt
