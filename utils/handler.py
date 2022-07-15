@@ -73,8 +73,8 @@ def rm_command(update: Update, context: MyContext) -> None:
 
 def del_command(update: Update, context: MyContext) -> None:
     to_delete = not isPrivateChat(update)
-    context.user_data['tenancy_list'].clear()
-    del context.user_data['tenancy_list']
+    for key in context.user_data:
+        del context.user_data[key]
     context.send_message(to_delete=to_delete, chat_id=update.effective_chat.id,
                          reply_to_message_id=update.effective_message.message_id, text='删除全部租户名成功！')
 

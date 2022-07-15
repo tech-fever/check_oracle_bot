@@ -5,7 +5,8 @@
 
 BOT_PATH="/opt/check_oracle"
 BOT_CONTAINER_NAME="check_oracle_bot"
-BOT_IMAGE="techfever/check_oracle_bot:latest"
+BOT_IMAGE="techfever/check_oracle_bot"
+BOT_IMAGE_TAG="latest"
 
 DC_URL="https://raw.githubusercontent.com/tech-fever/check_oracle_bot/main/docker-compose.yml"
 CONFIG_URL="https://raw.githubusercontent.com/tech-fever/check_oracle_bot/main/conf.ini.example"
@@ -269,11 +270,11 @@ show_config() {
         return 0
     fi
     # check container is running
-    docker ps -a | grep $BOT_CONTAINER_NAME >/dev/null 2>&1
+    docker ps | grep $BOT_CONTAINER_NAME >/dev/null 2>&1
     if [[ $? == 0 ]]; then
-        echo -e "bot已启动"
+        echo -e "${green}bot已启动${plain}"
     else
-        echo -e "bot未启动"
+        echo -e "${red}bot未启动${plain}"
     fi
 
     # check conf.ini exists
@@ -309,7 +310,7 @@ uninstall() {
 
     cd $BOT_PATH && docker-compose down
     rm -rf $BOT_PATH
-    docker rmi -f "${BOT_IMAGE}" > /dev/null 2>&1
+    docker rmi -f "${BOT_IMAGE}:${BOT_IMAGE_TAG}" > /dev/null 2>&1
     clean_all
 
     if [[ $# == 0 ]]; then
