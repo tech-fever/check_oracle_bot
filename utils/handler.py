@@ -187,9 +187,12 @@ async def isTenancyAlive_async(tenancies):
 
 async def fetch_async(url):
     async with aiohttp.ClientSession() as session:
-        async with session.head(url) as resp:
-            status_code = resp.status
-            return status_code
+        try:
+            async with session.head(url) as resp:
+                status_code = resp.status
+                return status_code
+        except aiohttp.ClientConnectorError as _:
+            return 999
 
 
 def pre_check_group_banned_cmd(update: Update, context: MyContext) -> None:
