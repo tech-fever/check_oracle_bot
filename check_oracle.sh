@@ -140,7 +140,7 @@ modify_bot_config() {
     fi
 
     # download conf.ini
-    wget -t 2 -T 10 -O /tmp/config.conf.ini ${CONFIG_URL} >/dev/null 2>&1
+    wget -t 2 -T 10 -O /tmp/conf.ini ${CONFIG_URL} >/dev/null 2>&1
 
     if [[ $? != 0 ]]; then
         echo -e "${red}下载config.yml失败，请检查本机能否连接 ${CONFIG_URL}${plain}"
@@ -156,8 +156,8 @@ modify_bot_config() {
         echo -e "${red}输入为空，即将退出。请重新配置bot${plain}"
         return 0
     fi
-    echo -e "用户id不是username，可发送任意信息给 https://t.me/userinfobot 获取"
-    read -e -r -p "请输入您的telegram账号id：" input
+    echo -e "> 注意：用户id不是username，可发送任意信息给 https://t.me/userinfobot 获取"
+    read -e -r -p "> 请输入您的telegram账号id：" input
     DEVELOPER_CHAT_ID=$input
     if [[ $input == "" ]]; then
         echo -e "${yellow}输入为空，程序将不再发送错误信息给您${plain}"
@@ -166,7 +166,7 @@ modify_bot_config() {
     sed -i "s/BOT_TOKEN =/BOT_TOKEN = ${BOT_TOKEN}/g" /tmp/conf.ini
     sed -i "s/DEVELOPER_CHAT_ID =/DEVELOPER_CHAT_ID = ${DEVELOPER_CHAT_ID}/g" /tmp/conf.ini
     echo -e "> 当前bot api: ${green}${DEVELOPER_CHAT_ID}${plain}"
-    echo -e "> 当前developer chat id: ${green}${当前DEVELOPER_CHAT_ID}${plain}"
+    echo -e "> 当前developer chat id: ${green}${DEVELOPER_CHAT_ID}${plain}"
 
     # replace conf.ini
     mv /tmp/conf.ini $BOT_PATH/conf.ini
@@ -337,7 +337,7 @@ show_menu() {
     ${green}2.${plain}  修改check_oracle_bot配置
     ${green}3.${plain}  启动check_oracle_bot
     ${green}4.${plain}  停止check_oracle_bot
-    ${green}5.${plain}  重启并更新check_oracle_bot（没有更新版本啦！）
+    ${green}5.${plain}  重启并更新check_oracle_bot
     ${green}6.${plain}  查看check_oracle_bot日志
     ${green}7.${plain}  查看check_oracle_bot配置
     ${green}8.${plain}  卸载check_oracle_bot
