@@ -100,8 +100,12 @@ bash <(curl -sL https://raw.githubusercontent.com/tech-fever/check_oracle_bot/ma
     
 
 请输入选择 [0-8]:
-```
-注：国内服务器自己解决DockerHub镜像下载慢的问题，我对国内有哪些镜像源也并不清楚
+``` 
+注：国内服务器自己解决DockerHub镜像下载慢的问题，我对国内有哪些镜像源也并不清楚  
 再注：国内服务器还需要建立telegram bot api反代，然后手动填入BASE_URL
 
 总之建议大家用国外服务器啦~~
+
+# 鸣谢
+感谢：
+> [作者danuonuo](https://github.com/danuonuo)的[项目](https://github.com//OracleAccountHeplerBot)
