@@ -1,3 +1,6 @@
+import os
+import time
+
 from telegram.ext import PicklePersistence, Updater, ContextTypes, CommandHandler, MessageHandler, Filters
 
 from utils import handler
@@ -6,6 +9,9 @@ from utils.myClass import MyContext
 
 
 def main():
+    # TimeZone
+    os.environ['TZ'] = 'Asia/Shanghai'
+    time.tzset()
     # Bot config
     bot_token = config['TELEBOT']['bot_token']
     base_url = None if len(config['TELEBOT']['base_url']) == 0 else config['TELEBOT']['base_url']
