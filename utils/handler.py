@@ -8,7 +8,7 @@ import traceback
 
 import aiohttp
 import requests as requests
-from telegram import Update, ParseMode
+from telegram import Update, ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import CallbackContext, DispatcherHandlerStop
 
 import utils.const as const
@@ -72,11 +72,25 @@ def rm_command(update: Update, context: MyContext) -> None:
 
 def del_command(update: Update, context: MyContext) -> None:
     to_delete = not isPrivateChat(update)
-    context.user_data.clear()
+    if update.callback_query:
+        if update.callback_query.data == 'confirm to del':
+            context.user_data.clear()
+            context.bot.edit_message_text(chat_id=update.effective_chat.id,
+                                          message_id=update.effective_message.message_id, text='删除全部租户名成功！')
+        elif update.callback_query.data == 'cancel to del':
+            context.bot.edit_message_text(chat_id=update.effective_chat.id,
+                                          message_id=update.effective_message.message_id, text='取消删除！')
+    elif context.user_data.get('tenancy_list') is None:
+        context.send_message(to_delete=to_delete, chat_id=update.effective_chat.id,
+                             reply_to_message_id=update.effective_message.message_id, text='已经删除，请勿重复操作！')
+    else:
+        context.send_message(to_delete=to_delete, chat_id=update.effective_chat.id, text='确定要删除全部租户名吗？',
+                             reply_markup=InlineKeyboardMarkup(
+                                 [[InlineKeyboardButton('确定', callback_data='confirm to del')],
+                                  [InlineKeyboardButton('取消', callback_data='cancel to del')]]))
+
     # for key in context.user_data:
     #     del context.user_data[key]
-    context.send_message(to_delete=to_delete, chat_id=update.effective_chat.id,
-                         reply_to_message_id=update.effective_message.message_id, text='删除全部租户名成功！')
 
 
 def get_command(update: Update, context: MyContext) -> None:
@@ -194,6 +208,17 @@ async def fetch_async(url):
                 return status_code
         except aiohttp.ClientConnectorError as _:
             return 999
+
+
+def button(update: Update, context: MyContext) -> None:
+    """Parses the CallbackQuery and updates the message text."""
+    query = update.callback_query
+    # CallbackQueries need to be answered, even if no notification to the user is needed
+    # Some clients may have trouble otherwise. See https://core.telegram.org/bots/api#callbackquery
+    query.answer()
+
+    if query.data == 'confirm to del' or 'cancel to del':
+        del_command(update, context)
 
 
 def pre_check_group_banned_cmd(update: Update, context: MyContext) -> None:

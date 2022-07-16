@@ -1,7 +1,8 @@
 import os
 import time
 
-from telegram.ext import PicklePersistence, Updater, ContextTypes, CommandHandler, MessageHandler, Filters
+from telegram.ext import PicklePersistence, Updater, ContextTypes, CommandHandler, MessageHandler, Filters, \
+    CallbackQueryHandler
 
 from utils import handler
 from utils.get_config import GetConfig
@@ -26,7 +27,7 @@ def main():
     dispatcher = updater.dispatcher
     dispatcher.bot_data['developer_chat_id'] = int(config['DEVELOPER']['developer_chat_id'])
     dispatcher.bot_data['group_enabled_command'] = {'/start', '/help', '/check'}
-    dispatcher.bot_data['group_banned_command'] = {'/set', '/add', '/rm', '/get'}
+    dispatcher.bot_data['group_banned_command'] = {'/set', '/add', '/rm', '/get', '/del'}
 
     # handlers that are forbidden in groups
     group_banned_handlers = MessageHandler(filters=Filters.chat_type.groups & Filters.command,
@@ -35,6 +36,8 @@ def main():
     #                                        callback=handler.post_check_group_banned_cmd)
     dispatcher.add_handler(group_banned_handlers, -1)
     # dispatcher.add_handler(group_delete_handlers, 1)
+
+    # on different commands - answer in Telegram
     dispatcher.add_handler(CommandHandler('start', handler.help_command, run_async=True))
     dispatcher.add_handler(CommandHandler('help', handler.help_command, run_async=True))
     dispatcher.add_handler(CommandHandler('set', handler.set_command))
@@ -44,7 +47,9 @@ def main():
     dispatcher.add_handler(CommandHandler('get', handler.get_command, run_async=True))
     dispatcher.add_handler(CommandHandler('check', handler.check_command, run_async=True))
     dispatcher.add_error_handler(handler.error_handler, run_async=True)
-    # on different commands - answer in Telegram
+
+    # on different buttons - answer in Telegram
+    dispatcher.add_handler(CallbackQueryHandler(handler.button, run_async=True))
 
     # start the bot using polling
     updater.start_polling()
