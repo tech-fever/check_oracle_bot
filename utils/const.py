@@ -1,4 +1,7 @@
-class _CONST:
+import sys
+
+
+class _Const:
     class ConstError(TypeError):
         pass
 
@@ -8,9 +11,8 @@ class _CONST:
         self.__dict__[key] = value
 
 
-import sys
-
-sys.modules[__name__] = _CONST()
-_CONST.LIVE = 'live'
-_CONST.DEAD = 'dead'
-_CONST.VOID = 'void'
+sys.modules[__name__] = _Const()
+_Const.LIVE = 'live'
+_Const.DEAD = 'dead'
+_Const.VOID = 'void'
+_Const.UNKNOWN = 'unknown'
