@@ -40,7 +40,7 @@ apt install gcc python3-pip -y
 
 ```shell
 mkdir -p /opt/bot/data/ && cd /opt/bot/
-git clone https://github.com/tech-fever/check_oracle_bot.git
+git clone https://github.com/tech-fever/check_oracle_bot.git ./
 pip install -r requirements.txt
 cp conf.ini.example conf.ini
 ```
