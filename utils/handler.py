@@ -488,6 +488,7 @@ def check_command(update: Update, context: MyContext) -> None:
             texts.append('分组 <b>{}</b> 查询结果'.format(group))
         texts.append('🟢正常账号数：{}'.format(len(res[const.LIVE])))
         texts.append('🔴异常账号数：{}\n'.format(len(res[const.DEAD]) + len(res[const.VOID])))
+        group_reply = '\n'.join(texts)
         if len(res[const.DEAD]) + len(res[const.VOID]) > 0:
             texts.append('异常账号包括：')
             if len(res[const.DEAD]) > 0:
@@ -509,9 +510,14 @@ def check_command(update: Update, context: MyContext) -> None:
             add_dead = tenancy_group.dead_cnt - last_dead_cnt
             if len(add_dead) > 0:
                 texts.append(f'😭增加死亡数：<code>{" ".join(add_dead)}</code>\n')
-
-        context.bot.edit_message_text(chat_id=update.effective_chat.id, message_id=reply_message.message_id,
-                                      parse_mode=ParseMode.HTML, text='\n'.join(texts))
+        if isPrivateChat(update):
+            context.bot.edit_message_text(chat_id=update.effective_chat.id, message_id=reply_message.message_id,
+                                          parse_mode=ParseMode.HTML, text='\n'.join(texts))
+        else:
+            context.bot.edit_message_text(chat_id=update.effective_chat.id, message_id=reply_message.message_id,
+                                          parse_mode=ParseMode.HTML, text=group_reply)
+            context.send_message(to_delete=to_delete, chat_id=update.effective_user.id,
+                                 text='\n'.join(texts), parse_mode=ParseMode.HTML)
 
 
 def isTenancyAlive(tenancy: str):
