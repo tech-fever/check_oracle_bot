@@ -144,6 +144,8 @@ def extract_tenancy_from_email(tenancy_list: Union[list, set]) -> set:
     for tenancy in tenancy_list:
         if email_pattern.fullmatch(tenancy):
             tenancy_set.add(tenancy.split('@')[0])
+        else:
+            tenancy_set.add(tenancy)
     return tenancy_set
 
 

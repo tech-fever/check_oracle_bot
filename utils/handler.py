@@ -55,7 +55,8 @@ def set_command(update: Update, context: MyContext) -> None:
     if len(context.args) < 1:
         context.send_message(to_delete=to_delete, chat_id=update.effective_chat.id,
                              reply_to_message_id=update.effective_message.message_id,
-                             text='设置默认组： /set 租户名1 租户名2 ...\n设置指定组： /set 组名 租户名1 租户名2 ...\n设置指定组的时候请使用 /getgroups 查看确保组名已经存在，若不存在请使用 /group 组名1 组名2 ... 来添加。')
+                             text='设置默认组： /set 租户名1 租户名2 ...\n设置指定组： /set 组名 租户名1 租户名2 ...\n设置指定组的时候请使用 /getgroups '
+                                  '查看确保组名已经存在，若不存在请使用 /group 组名1 组名2 ... 来添加。')
         return
     group_name = context.args[0]
     if group_name not in context.user_data['tenancy_manager']:
