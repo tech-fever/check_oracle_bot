@@ -305,7 +305,7 @@ def del_command(update: Update, context: MyContext) -> None:
                 group_names = update.callback_query.data.split(' ')[3:]
             deleted, invalid = [], []
             for group in group_names:
-                if context.user_data['tenancy_manager'].remove(group) is not None:
+                if context.user_data['tenancy_manager'].remove_group(group) is not None:
                     deleted.append(group)
                 else:
                     invalid.append(group)
