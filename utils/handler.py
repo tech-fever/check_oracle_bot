@@ -23,7 +23,7 @@ def help_command(update: Update, context: MyContext) -> None:
                          reply_to_message_id=update.effective_message.message_id,
                          parse_mode=ParseMode.HTML,
                          text='Hi! {}!欢迎使用本bot！\n'.format(update.effective_user.mention_html()) + \
-                              '本bot可用来查询租户的存活情况。如出现错误请联系技术支持 @locuser \n'
+                              '本bot可用来查询租户的存活情况。如出现错误请联系技术支持 @myfeverite \n'
                               '/set - 设置租户名\n\t设置默认组：/set 租户名1 租户名2 ..\n\t设置指定组：/set 组名 租户名1 租户名2 ...\n'
                               '/add - 添加租户名\n\t添加到默认组：/add 租户名1 租户名2 ...\n\t添加到指定组：/add 组名 租户名1 租户名2 ...\n'
                               '/rm - 删除指定租户名（空格或换行分隔多个租户名）\n删除默认组的租户名：/rm 租户名1 租户名2 ...'
